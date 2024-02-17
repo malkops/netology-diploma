@@ -47,5 +47,4 @@ resource "yandex_kubernetes_node_group" "diploma_node_group" {
     auto_upgrade = false
     auto_repair  = true
   }
-
 }
