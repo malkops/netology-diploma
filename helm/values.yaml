@@ -1,0 +1,13 @@
+image: malkops/netology-app:1.0
+
+service:
+  nodePort: 30000
+  internalPort: 8080
+
+resources:
+  limits:
+    cpu: 0.1
+    memory: 100Mi
+  requests:
+    cpu: 0.1
+    memory: 100Mi

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    app.kubernetes.io/name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .Release.Name }}
+  replicas: {{ default 1 .Values.replicaCount | int }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image }}"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: {{ .Values.service.internalPort | int }}
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort | int }}
+        readinessProbe:
+          httpGet:
+            path: /
+            port: {{ .Values.service.internalPort | int }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}

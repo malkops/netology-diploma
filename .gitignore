@@ -74,4 +74,8 @@ terraform.rc
 .history
 .ionide
 
+### Helm ###
+# Chart dependencies
+**/charts/*.tgz
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,terraform,ansible,git
