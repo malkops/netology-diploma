@@ -135,6 +135,11 @@ helm install -n monitoring kps prometheus-community/kube-prometheus-stack
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
 3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
 
+### Установка и настройка CI/CD - что сделано
+
+- Реализованы CI/CD на базе Github Actions: применение изменений terraform (если были изменения в terraform/), отправка образа malkops/netology-app:latest в регистри Dockerhub при изменении в app/ и ветке main, при пуше тега в номером версии (1.0.0 например), отправляется образ с этой версией и поднимается приложение в k8s yc.
+- Github Actions можно посмотреть [тут](https://github.com/malkops/netology-diploma/tree/main/.github/workflows)
+
 ---
 ## Что необходимо для сдачи задания?
 
