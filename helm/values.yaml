@@ -1,4 +1,4 @@
-image: malkops/netology-app:1.0
+image: malkops/netology-app
 
 service:
   nodePort: 30000
