@@ -16,6 +16,8 @@ jobs:
       TF_VAR_service_account_key_file: ${{ secrets.TF_VAR_SERVICE_ACCOUNT_KEY_FILE }}
       TF_VAR_get_creds: ${{ secrets.TF_VAR_GET_CREDS }}
       DIPLOMA: ${{ secrets.TF_KEY_BASE64 }}
+      ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,5 +30,5 @@ jobs:
           cd terraform
           wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
           unzip terraform_1.5.7_linux_amd64.zip
-          terraform init
-          terraform apply --auto-approve
+          terraform -v
+          terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY" && terraform apply --auto-approve

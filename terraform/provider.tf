@@ -7,7 +7,7 @@ terraform {
   required_version = ">= 0.13"
 
   backend "s3" {
-    endpoint = "storage.yandexcloud.net"
+    endpoint  = "storage.yandexcloud.net"
     bucket    = "infra-state-netology"
     region    = "ru-central1"
     key       = "tfstate.tfstate"
