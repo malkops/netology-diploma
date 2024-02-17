@@ -1,0 +1,33 @@
+name: deploy-app
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  push-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app
+          push: true
+          tags: malkops/netology-app:${{ github.ref_name }}
+  deploy-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get YC app
+        run: |
+          wget https://get.helm.sh/helm-v3.14.1-linux-amd64.tar.gz && tar -xf helm-v3.14.1-linux-amd64.tar.gz -C /opt
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yc -n
+          yc managed-kubernetes cluster get-credentials test-k8s-cluster --external --token ${{ secrets.YC_TOKEN }} --cloud-id ${{ secrets.CLOUD_ID }} --folder-id ${{ secrets.FOLDER_ID }}
+          
+
