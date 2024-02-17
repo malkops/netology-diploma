@@ -42,5 +42,4 @@ jobs:
       - name: Deploy application
         run: |
           sed -i 's/appVersion: 0.1.0/appVersion: ${{ github.ref_name }}/' helm/Chart.yaml
-          cat /home/runner/.config/yandex-cloud/config.yaml
           helm upgrade -i netologi-diploma helm/

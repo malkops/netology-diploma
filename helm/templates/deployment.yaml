@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image }}":"{{ .Chart.AppVersion }}"
+        image: {{ .Values.image }}:{{ .Chart.AppVersion }}
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: {{ .Values.service.internalPort | int }}
