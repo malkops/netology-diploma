@@ -28,7 +28,5 @@ jobs:
           cd terraform
           wget https://releases.hashicorp.com/terraform/1.7.3/terraform_1.7.3_darwin_amd64.zip
           unzip terraform_1.7.3_darwin_amd64.zip
-      - name: Terraform init
-        run: terraform init
-      - name: Terraform apply
-        run: terraform apply --auto-approve
+          terraform init
+          terraform apply --auto-approve
