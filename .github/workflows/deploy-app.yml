@@ -25,21 +25,21 @@ jobs:
     needs: push-image
     steps:
       - name: Install YC app
-        run: curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yc -n
+        run: |
+          curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /opt/yc -n
+          /opt/yc/bin/yc config profile create default
+          /opt/yc/bin/yc config set token ${{ secrets.YC_TOKEN }}
+          /opt/yc/bin/yc config set cloud-id ${{ secrets.CLOUD_ID }}
+          /opt/yc/bin/yc config set folder-id ${{ secrets.FOLDER_ID }}
       - name: Install kubectl and helm
         run: |
           wget https://get.helm.sh/helm-v3.14.1-linux-amd64.tar.gz && tar -xf helm-v3.14.1-linux-amd64.tar.gz -C /opt
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
       - name: Get kubernetes credentials
-        run: |
-          /opt/yc/bin/yc config profile create default
-          /opt/yc/bin/yc config set token ${{ secrets.YC_TOKEN }}
-          /opt/yc/bin/yc config set cloud-id ${{ secrets.CLOUD_ID }}
-          /opt/yc/bin/yc config set folder-id ${{ secrets.FOLDER_ID }}
-          /opt/yc/bin/yc managed-kubernetes cluster get-credentials diploma-cluster --external
+        run: /opt/yc/bin/yc managed-kubernetes cluster get-credentials diploma-cluster --external
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Change helm app version
+        run: "sed -i 's/appVersion: 0.1.0/appVersion: ${{ github.ref_name }}/' helm/Chart.yaml"
       - name: Deploy application
-        run: |
-          sed -i 's/appVersion: 0.1.0/appVersion: ${{ github.ref_name }}/' helm/Chart.yaml
-          helm upgrade -i netologi-diploma helm/
+        run: helm upgrade -i netologi-diploma helm/
