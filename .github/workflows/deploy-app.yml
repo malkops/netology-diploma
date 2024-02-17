@@ -17,7 +17,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./app
+          file: "/app/Dockerfile"
           push: true
           tags: malkops/netology-app:${{ github.ref_name }}
   deploy-app:
