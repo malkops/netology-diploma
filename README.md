@@ -5,7 +5,6 @@ Repository for the devops diploma course
 
 ## Этапы выполнения:
 
-
 ### Создание облачной инфраструктуры
 
 Для начала необходимо подготовить облачную инфраструктуру в ЯО при помощи [Terraform](https://www.terraform.io/).
@@ -115,7 +114,7 @@ Repository for the devops diploma course
 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install -n monitoring kps prometheus-community/kube-prometheus-stack
+helm install -n monitoring kps prometheus-community/kube-prometheus-stack -f monitoring/values.yaml
 
 ---
 ### Установка и настройка CI/CD

@@ -2,3 +2,4 @@ grafana:
   service:
     portName: http-web
     type: NodePort
+  adminPassword: malkops-admin
