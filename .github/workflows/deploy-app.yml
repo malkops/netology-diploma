@@ -42,4 +42,4 @@ jobs:
       - name: Change helm app version
         run: "sed -i 's/appVersion: 0.1.0/appVersion: ${{ github.ref_name }}/' helm/Chart.yaml"
       - name: Deploy application
-        run: helm upgrade -i -n app netologi-diploma helm/
+        run: helm upgrade -i netologi-diploma helm/
